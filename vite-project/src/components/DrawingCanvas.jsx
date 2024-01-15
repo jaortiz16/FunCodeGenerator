@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Stage, Layer, Line, Rect, Text, Transformer, Circle } from 'react-konva';
+import { Stage, Layer, Line, Rect, Text, Transformer, Circle, Arrow } from 'react-konva';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import 'tailwindcss/tailwind.css';
@@ -9,6 +9,7 @@ function DrawingCanvas() {
   const [lines, setLines] = React.useState([]);
   const [rectangles, setRectangles] = React.useState([]);
   const [circles, setCircles] = React.useState([]);
+  const [arrows, setArrows] = React.useState([]);
   const [lineColor, setLineColor] = React.useState('#000000');
   const [lineWidth, setLineWidth] = React.useState(5);
   const [selectedId, selectShape] = React.useState(null);
@@ -16,16 +17,17 @@ function DrawingCanvas() {
   const [borderColor, setBorderColor] = React.useState('#000000');
   const [fillEnabled, setFillEnabled] = React.useState(false);
   const [fillColor, setFillColor] = React.useState('#ffffff');
+  const [star, setstars] = React.useState([]);
 
   const stageRef = useRef(null);
   const isDrawing = useRef(false);
-
   const handleMouseDown = (e) => {
-    if (tool === 'pen') {
-      isDrawing.current = true;
-      const pos = e.target.getStage().getPointerPosition();
-      setLines([...lines, { tool, color: lineColor, width: lineWidth, points: [pos.x, pos.y] }]);
-    } else if (tool === 'square' || tool === 'circle' || tool === 'select') {
+      if (tool === 'pen') {
+        isDrawing.current = true;
+        const pos = e.target.getStage().getPointerPosition();
+        setLines([...lines, { tool, color: lineColor, width: lineWidth, points: [pos.x, pos.y] }]);
+      } else if (tool === 'square' || tool === 'circle' || tool === 'select' || tool === 'star' || tool === 'arrow') {
+        // ... (código existente)
       const pos = e.target.getStage().getPointerPosition();
       if (tool === 'square' && !selectedId) {
         const newRectangle = {
@@ -58,6 +60,31 @@ function DrawingCanvas() {
           selectShape(clickedShape.attrs.id);
         }
       }
+    }else if (tool === 'star' && !selectedId) {
+      const pos = e.target.getStage().getPointerPosition();
+      const newstar = {
+        x: pos.x,
+        y: pos.y,
+        width: 50, 
+        height: 50, 
+        stroke: borderColor,
+        strokeWidth: borderWidth,
+        fill: fillEnabled ? fillColor : 'black',
+        id: `star-${star.length + 1}`,
+      };
+      setstars([...star, newstar]);
+      selectShape(newstar.id);
+    } else if (tool === 'arrow') {
+      const pos = e.target.getStage().getPointerPosition();
+      const newArrow = {
+        points: [pos.x, pos.y, pos.x, pos.y],
+        stroke: borderColor,
+        strokeWidth: borderWidth,
+        fill: fillEnabled ? fillColor : 'transparent',
+        id: `arrow-${arrows.length + 1}`,
+      };
+      setArrows([...arrows, newArrow]);
+      selectShape(newArrow.id);
     } else if (tool === 'eraser') {
       const pos = e.target.getStage().getPointerPosition();
       const shapes = stageRef.current.find(`.${tool}`);
@@ -69,6 +96,12 @@ function DrawingCanvas() {
           } else if (shape.getClassName() === 'Circle') {
             const updatedCircles = circles.filter((circle) => circle.id !== shape.attrs.id);
             setCircles(updatedCircles);
+          } else if (shape.getClassName() === 'Star') {
+            const updatedStars = star.filter((star) => star.id !== shape.attrs.id);
+            setStars(updatedStars);
+          } else if (shape.getClassName() === 'Arrow') {
+            const updatedArrows = arrows.filter((arrow) => arrow.id !== shape.attrs.id);
+            setArrows(updatedArrows);
           }
         }
       });
@@ -93,8 +126,8 @@ function DrawingCanvas() {
   };
 
   const handleDblClick = () => {
-    const selectedShape = rectangles.find((rect) => rect.id === selectedId) || circles.find((circle) => circle.id === selectedId);
-    if (selectedShape) {
+    const selectedShape = rectangles.find((rect) => rect.id === selectedId) || circles.find((circle) => circle.id === selectedId || stars.find((star) => star.id === selectedId|| arrows.find((arrow) => arrow.id === selectedId)))
+        if (selectedShape) {
       selectShape(null);
       const tr = stageRef.current.findOne('.transformer');
       tr.nodes([]);
@@ -172,28 +205,92 @@ function DrawingCanvas() {
         ref={stageRef}
       >
         <Layer>
-          <Text text="¡Comienza a dibujar!" x={5} y={30} />
-          {lines.map((line, i) => (
-            <Line
-              key={`line-${i}`}
-              points={line.points}
-              stroke={line.color}
-              strokeWidth={line.width}
-              tension={0.5}
-              lineCap="round"
-              lineJoin="round"
-              globalCompositeOperation={
-                line.tool === 'eraser' ? 'destination-out' : 'source-over'
-              }
-            />
-          ))}
-          {rectangles.map((rect) => (
-            <Rect
-              key={rect.id}
-              {...rect}
+            <Text text="¡Comienza a dibujar!" x={5} y={30} />
+            {lines.map((line, i) => (
+              <Line
+                key={`line-${i}`}
+                points={line.points}
+                stroke={line.color}
+                strokeWidth={line.width}
+                tension={0.5}
+                lineCap="round"
+                lineJoin="round"
+                globalCompositeOperation={
+                  line.tool === 'eraser' ? 'destination-out' : 'source-over'
+                }
+              />
+            ))}
+            {rectangles.map((rect) => (
+              <Rect
+                key={rect.id}
+                {...rect}
+                draggable={tool === 'select'}
+                onClick={() => selectShape(rect.id)}
+                onTap={() => selectShape(rect.id)}
+                onTransformEnd={(e) => {
+                  const node = e.target;
+                  const scaleX = node.scaleX();
+                  const scaleY = node.scaleY();
+
+                  node.scaleX(1);
+                  node.scaleY(1);
+
+                  const updatedRectangles = rectangles.map((r) => {
+                    if (r.id === rect.id) {
+                      return {
+                        ...r,
+                        x: node.x(),
+                        y: node.y(),
+                        width: Math.max(5, node.width() * scaleX),
+                        height: Math.max(5, node.height() * scaleY), // Fix: Use Math.max for height as well
+                      };
+                    }
+                    return r;
+                  });
+
+                  setRectangles(updatedRectangles);
+                }}
+              />
+            ))}
+            {star.map((star) => (
+              <Triangulo
+                key={star.id}
+                {...star}
+                draggable={tool === 'select'}
+                onClick={() => selectShape(star.id)}
+                onTap={() => selectShape(star.id)}
+                onTransformEnd={(e) => {
+                  const node = e.target;
+                  const scaleX = node.scaleX();
+                  const scaleY = node.scaleY();
+
+                  node.scaleX(1);
+                  node.scaleY(1);
+
+                  const updatedstars = star.map((t) => {
+                    if (t.id === star.id) {
+                      return {
+                        ...t,
+                        x: node.x(),
+                        y: node.y(),
+                        width: Math.max(5, node.width() * scaleX),
+                        height: Math.max(5, node.height() * scaleY), // Fix: Use Math.max for height as well
+                      };
+                    }
+                    return t;
+                  });
+
+                  setstars(updatedstars);
+                }}
+              />
+            ))}
+            {arrows.map((arrow) => (
+            <Arrow
+              key={arrow.id}
+              {...arrow}
               draggable={tool === 'select'}
-              onClick={() => selectShape(rect.id)}
-              onTap={() => selectShape(rect.id)}
+              onClick={() => selectShape(arrow.id)}
+              onTap={() => selectShape(arrow.id)}
               onTransformEnd={(e) => {
                 const node = e.target;
                 const scaleX = node.scaleX();
@@ -202,20 +299,22 @@ function DrawingCanvas() {
                 node.scaleX(1);
                 node.scaleY(1);
 
-                const updatedRectangles = rectangles.map((r) => {
-                  if (r.id === rect.id) {
+                const updatedArrows = arrows.map((a) => {
+                  if (a.id === arrow.id) {
                     return {
-                      ...r,
-                      x: node.x(),
-                      y: node.y(),
-                      width: Math.max(5, node.width() * scaleX),
-                      height: Math.max(node.height() * scaleY),
+                      ...a,
+                      points: [
+                        node.points()[0],
+                        node.points()[1],
+                        node.points()[0] + (node.width() * scaleX),
+                        node.points()[1] + (node.height() * scaleY),
+                      ],
                     };
                   }
-                  return r;
+                  return a;
                 });
 
-                setRectangles(updatedRectangles);
+                setArrows(updatedArrows);
               }}
             />
           ))}
@@ -247,6 +346,7 @@ function DrawingCanvas() {
           
               setCircles(updatedCircles);
             }}
+            
           />
           
           
@@ -256,7 +356,7 @@ function DrawingCanvas() {
           {selectedId && (
             <Transformer
               ref={(node) => {
-                if (node && (tool === 'select' || tool === 'square' || tool === 'circle')) {
+                if (node && (tool === 'square' || tool === 'circle' || tool === 'select' || tool === 'star' || tool === 'arrow')) {
                   const tr = node;
                   const selectedShape = rectangles.find((rect) => rect.id === selectedId) || circles.find((circle) => circle.id === selectedId);
                   tr.nodes([stageRef.current.findOne(`#${selectedShape.id}`)]);
@@ -318,7 +418,7 @@ function DrawingCanvas() {
           <span className="ml-2">{lineWidth}</span>
         </div>
       )}
-      {(tool === 'square' || tool === 'circle') && (
+      {(tool === 'square' || tool === 'circle' || tool === 'select' || tool === 'star' || tool === 'arrow') && (
         <div className="mt-4 flex items-center">
           <label className="mr-2">Grosor del Borde:</label>
           <input
@@ -330,7 +430,7 @@ function DrawingCanvas() {
           />
         </div>
       )}
-      {(tool === 'square' || tool === 'circle') && (
+      {(tool === 'square' || tool === 'circle'| tool === 'star') && (
         <div className="mt-4 flex items-center">
           <label className="mr-2">Color del Borde:</label>
           <input
@@ -376,3 +476,4 @@ function DrawingCanvas() {
 }
 
 export default DrawingCanvas;
+
