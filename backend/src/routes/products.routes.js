@@ -20,4 +20,9 @@ router.put("/:productId", [verifyToken, isModerator], updateProductById);
 
 router.delete("/:productId", [verifyToken, isAdmin], deleteProductById);
 
+const auth = require('../middleware/auth');
+
+router.get('/', auth, async (req, res) => {
+  // Your code here
+});
 export default router;

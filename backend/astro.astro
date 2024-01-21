@@ -1,0 +1,21 @@
+//En tu proyecto Astro, podrías tener un componente que obtiene datos de la API de productos de este backend. Aquí hay un ejemplo de cómo podría verse ese componente:
+---
+import { fetchContent } from '../scripts/fetchContent.js';
+let products;
+try {
+  products = fetchContent('http://localhost:5000/api/products');
+} catch (err) {
+  console.error(err);
+}
+---
+<ul>
+  {products.map(product => (
+    <li key={product._id}>
+      <h2>{product.name}</h2>
+      <p>{product.category}</p>
+      <p>{product.price}</p>
+    </li>
+  ))}
+</ul>
+
+//PAra el fonrtend en el content 
