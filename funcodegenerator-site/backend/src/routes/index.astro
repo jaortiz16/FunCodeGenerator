@@ -1,0 +1,20 @@
+---
+// Esto es un script de frontmatter en un archivo .astro
+// codigo que hace  uns asolicitud get  con astro  al servidor expres
+// si se ejecutan en el mismo dominio reemplazar la url con /api/products
+const fetch = require('node-fetch');
+import fetch from 'node-fetch';
+
+const response = await fetch('http://localhost:4000/api/products');
+const products = await response.json();
+---
+
+<ul>
+  {products.map(product => (
+    <li key={product._id}>
+      <h2>{product.name}</h2>
+      <p>{product.category}</p>
+      <p>{product.price}</p>
+    </li>
+  ))}
+</ul>

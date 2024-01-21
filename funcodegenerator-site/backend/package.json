@@ -1,21 +1,31 @@
 {
-  "name": "funcodegenerator-server",
-  "version": "0.0.1",
-  "description": "Generation of functional programs through visual interfaces",
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src --out-dir build",
+    "dev": "nodemon src/index.js -- exec babel-node",
+    "start": "node build/index.js"
   },
-  "keywords": [
-    "Programming",
-    "language",
-    "artificial",
-    "intelligence",
-    "image",
-    "design",
-    "learning",
-    "programming"
-  ],
-  "author": "Ortiz Andres",
-  "license": "ISC"
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.1.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.23.4",
+    "@babel/core": "^7.23.7",
+    "@babel/node": "^7.22.19",
+    "@babel/preset-env": "^7.23.8",
+    "nodemon": "^3.0.3"
+  }
 }
