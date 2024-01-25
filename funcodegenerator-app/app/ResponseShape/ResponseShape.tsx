@@ -139,7 +139,7 @@ export class ResponseShapeUtil extends BaseBoxShapeUtil<ResponseShape> {
 			const timeOut = setTimeout(() => {
 				resolve(g)
 				window.removeEventListener('message', windowListener)
-			}, 2000)
+			}, 60000) // 1 minute
 			window.addEventListener('message', windowListener)
 			//request new screenshot
 			const iframe = document.getElementById(`iframe-${shape.id}`) as HTMLIFrameElement
