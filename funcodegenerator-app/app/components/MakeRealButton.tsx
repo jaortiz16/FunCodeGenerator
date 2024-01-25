@@ -8,7 +8,10 @@ export function MakeRealButton() {
 
 	const handleClick = useCallback(async () => {
 		try {
-			await makeReal(editor)
+			await Promise.race([
+				makeReal(editor),
+				new Promise((_, reject) => setTimeout(() => reject(new Error('Tiempo de espera agotado')), 60000))
+			])
 		} catch (e) {
 			console.error(e)
 			addToast({
