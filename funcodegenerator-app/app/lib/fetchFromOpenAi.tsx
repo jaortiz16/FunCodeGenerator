@@ -4,7 +4,7 @@ export async function fetchFromOpenAi(
 	providedApiKey: string,
 	body: GPT4VCompletionRequest
 ): Promise<GPT4VCompletionResponse> {
-	const apiKey = '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'
+	const apiKey = providedApiKey ?? process.env.OPENAI_API_KEY
 
 	if (!apiKey) {
 		throw new Error(
