@@ -25,7 +25,7 @@
 	overflow: hidden;
 }
 .makeRealButton {
-	background: #40d01c;
+	background: #000000;
 	color: white;
 	border: none;
 	font: inherit;
@@ -43,5 +43,3 @@
 .makeRealButton:hover {
 	opacity: 0.95;
 }
-
-
