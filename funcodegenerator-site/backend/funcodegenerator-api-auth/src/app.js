@@ -18,7 +18,7 @@ app.set("json spaces", 4);
 app.use(
   cors(
     {
-    origin: ["http://localhost:3000", "https://fun-code-generator-7jkh.vercel.app/", "https://www.funcodegenerator.me/"],
+    origin: ["http://localhost:3000", "https://fun-code-generator-7jkh.vercel.app", "https://www.funcodegenerator.me"],
     methods: "GET,HEAD,PUT,PATCH,POST",
     credentials: true,
   }
