@@ -1,4 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import uploadLink from '../lib/uploadLink';
+
 import {
 	BaseBoxShapeUtil,
 	DefaultSpinner,
@@ -11,7 +13,10 @@ import {
 	useIsEditing,
 	useToasts,
 } from '@tldraw/tldraw'
-
+export let code:any;
+const handleInsertHtml = (html: string) => {
+	uploadLink(html);
+};
 export type ResponseShape = TLBaseShape<
 	'response',
 	{
@@ -105,10 +110,14 @@ export class ResponseShapeUtil extends BaseBoxShapeUtil<ResponseShape> {
 					onClick={() => {
 						if (navigator && navigator.clipboard) {
 							navigator.clipboard.writeText(shape.props.html)
+							code = shape.props.html;
 							toast.addToast({
 								icon: 'duplicate',
 								title: 'Copied to clipboard',
 							})
+							console.log(code);
+							handleInsertHtml(code);
+
 						}
 					}}
 					onPointerDown={stopEventPropagation}
