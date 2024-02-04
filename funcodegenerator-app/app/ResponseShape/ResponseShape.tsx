@@ -115,7 +115,6 @@ export class ResponseShapeUtil extends BaseBoxShapeUtil<ResponseShape> {
 								icon: 'duplicate',
 								title: 'Copied to clipboard',
 							})
-							console.log(code);
 							handleInsertHtml(code);
 
 						}
