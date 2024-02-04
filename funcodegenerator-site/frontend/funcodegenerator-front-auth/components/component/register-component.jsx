@@ -23,7 +23,7 @@ export function RegisterComponent() {
       const email = e.target.email.value;
       const password = e.target.password.value;
       try {
-        const res = await fetch("http://localhost:4000/api/auth/signup", {
+        const res = await fetch("https://apiauthfuncodegenerator.onrender.com/api/auth/signup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
