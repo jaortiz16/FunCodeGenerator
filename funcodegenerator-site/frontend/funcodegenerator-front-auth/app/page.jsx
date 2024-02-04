@@ -1,11 +1,6 @@
-'use client'
-import { useRouter } from "next/navigation";
-
+import { LandingComponent } from "@/components/component/landing-component";
 export default function Home() {
-  const router = useRouter();
-  return (
-   <>
-    {router.push("/login")}
-   </>
-  );
+  return <>
+  <LandingComponent />
+  </>;
 }
