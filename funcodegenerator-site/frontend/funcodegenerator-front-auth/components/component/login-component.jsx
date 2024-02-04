@@ -15,7 +15,7 @@ export function LoginComponent() {
     const email = e.target.email.value;
     const password = e.target.password.value;
     try {
-      const res = await fetch("http://localhost:4000/api/auth/signin", {
+      const res = await fetch("https://apiauthfuncodegenerator.onrender.com/api/auth/signin", {
         credentials: "include",
         method: "POST",
         headers: {
