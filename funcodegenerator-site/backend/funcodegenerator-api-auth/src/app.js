@@ -16,7 +16,13 @@ app.set("json spaces", 4);
 
 // Middlewares
 app.use(
-  cors()
+  cors(
+    {
+    origin: ["http://localhost:3000", "https://fun-code-generator-7jkh.vercel.app/", "https://www.funcodegenerator.me"],
+    methods: "GET,HEAD,PUT,PATCH,POST",
+    credentials: true,
+  }
+  )
 );
 
 // Habilita las solicitudes preflight para todas las rutas
