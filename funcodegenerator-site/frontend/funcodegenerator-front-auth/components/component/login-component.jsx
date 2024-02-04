@@ -29,7 +29,7 @@ export function LoginComponent() {
       const data = await res.json();
       if (!data.message) {
         setErrorMessage("");
-        window.location.href = "https://fun-code-generator-dxgts0c3v-jaortiz16s-projects.vercel.app/";
+        window.location.href = "https://www.funcodegenerator.tech/";
    
       } else {
         setErrorMessage(data.message);
