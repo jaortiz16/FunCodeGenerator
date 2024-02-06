@@ -1,0 +1,73 @@
+@keyframes tornado {
+    0% {
+      transform: scale(1); /* Tamaño normal */
+    }
+    25% {
+      transform: scale(1.1); /* Escalar hacia arriba más lento */
+    }
+    50% {
+      transform: scale(1.2); /* Escalar hacia arriba más lento */
+    }
+    75% {
+      transform: scale(1.1); /* Escalar hacia arriba más lento */
+    }
+    100% {
+      transform: scale(1); /* Volver al tamaño normal */
+    }
+  }
+  
+  @keyframes text-animation {
+    0% {
+      transform: scale(1); /* Tamaño normal */
+    }
+    25% {
+      transform: scale(1.05); /* Escalar hacia arriba más lento */
+    }
+    50% {
+      transform: scale(1.1); /* Escalar hacia arriba más lento */
+    }
+    75% {
+      transform: scale(1.05); /* Escalar hacia arriba más lento */
+    }
+    100% {
+      transform: scale(1); /* Volver al tamaño normal */
+    }
+  }
+  
+  @keyframes disappear {
+    0%, 50% {
+      opacity: 1; /* Visible */
+    }
+    100% {
+      opacity: 0; /* Invisible */
+    }
+  }
+  
+  .background {
+    background: linear-gradient(to bottom, #000000, #333333);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .content {
+    text-align: center;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    animation: text-animation 8s ease-in-out infinite alternate, disappear 8s ease-in-out infinite alternate; /* Ajustar la duración de la animación de texto y el desvanecimiento para que coincidan */
+  }
+  
+  .logo-container {
+    margin-right: 20px;
+    flex-shrink: 0;
+    animation: tornado 8s ease-in-out infinite alternate, disappear 8s ease-in-out infinite alternate; /* Ajustar la duración de la animación del tornado y el desvanecimiento para que coincidan */
+  }
+  
+  h1 {
+    font-weight: bold;
+    font-size: 36px;
+  }
+  
