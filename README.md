@@ -1,3 +1,3 @@
 # FunCodeGenerator
 Proyecto de lectura y escritura de textos academicos
-con documentacion
+con documentacion con github
