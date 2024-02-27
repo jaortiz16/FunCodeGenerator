@@ -15,7 +15,7 @@ export function LoginComponent() {
     const email = e.target.email.value;
     const password = e.target.password.value;
     try {
-      const res = await fetch("https://apiauthfuncodegenerator.onrender.com/api/auth/signin", {
+      const res = await fetch("http://localhost:4000/api/auth/signin", {
         credentials: "include",
         method: "POST",
         headers: {
@@ -29,7 +29,7 @@ export function LoginComponent() {
       const data = await res.json();
       if (!data.message) {
         setErrorMessage("");
-        window.location.href = "https://www.funcodegenerator.tech/";
+        window.location.href = "http://localhost:3001/";
    
       } else {
         setErrorMessage(data.message);
@@ -44,6 +44,7 @@ export function LoginComponent() {
       key="1"
       className="min-h-screen flex items-center justify-center bg-black"
     >
+      
       <video
         autoPlay
         loop
@@ -52,6 +53,7 @@ export function LoginComponent() {
       >
         <source src="/wallpaper-network.mp4" type="video/mp4" />
       </video>
+      
       <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 space-y-6 z-10 relative">
         <div className="text-center">
           <TornadoIcon className="h-10 w-10 mx-auto mb-2" />
