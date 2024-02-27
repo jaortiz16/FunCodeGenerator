@@ -8,11 +8,16 @@ import React, { useState } from "react";
 import Loader from "@/app/components/Loader";
 
 export function LandingComponent() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   const [videoLoaded, setVideoLoaded] = useState(false);
   const handleVideoLoad = () => {
     setVideoLoaded(true); // Cambia el estado cuando el video se carga completamente
   };
-  console.log(videoLoaded);
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
        {!videoLoaded && <Loader />}
@@ -28,45 +33,115 @@ export function LandingComponent() {
 {videoLoaded && (
       <div className="z-10 relative">
         <header className="px-4 lg:px-6 h-16 flex items-center bg-white/40 backdrop-blur-lg">
-          <Link className="flex items-center justify-center" href="#">
-            <TornadoIcon className="h-6 w-6 text-black" />
-            <span className="ml-2 text-black font-medium">
-              FunCodeGenerator
-            </span>
+      <div className="flex items-center w-full justify-between">
+        {/* Brand */}
+        <Link className="flex items-center" href="#">
+          <TornadoIcon className="h-6 w-6 text-black" />
+          <span className="ml-2 text-black font-medium">
+            FunCodeGenerator
+          </span>
+        </Link>
+
+        {/* Botón del menú (solo en dispositivos móviles) */}
+        <button
+          className="lg:hidden p-2"
+          onClick={toggleMenu}
+        >
+          <svg
+            className="h-6 w-6 text-black"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            {isMenuOpen ? (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            ) : (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16m-7 6h7"
+              />
+            )}
+          </svg>
+        </button>
+      </div>
+
+      {/* Enlaces de la barra de navegación (solo en dispositivos grandes) */}
+      <nav className="hidden lg:flex gap-4 sm:gap-6 text-black ml-auto">
+        <Link
+          className="text-sm font-medium hover:underline underline-offset-4 py-2"
+          href="/"
+        >
+          Home
+        </Link>
+        <Link
+          className="text-sm font-medium hover:underline underline-offset-4 py-2"
+          href="/docs"
+        >
+          Documentation
+        </Link>
+        <Link
+          className="text-sm font-medium hover:underline underline-offset-4 py-2"
+          href="#"
+        >
+          About
+        </Link>
+        <Link
+          className="text-sm font-medium hover:underline underline-offset-4 py-2"
+          href="#"
+        >
+          Contact
+        </Link>
+        <Link
+          className="text-sm font-medium bg-black rounded-md text-white px-4 py-2 hover:bg-gray-900"
+          href="/login"
+        >
+          Login
+        </Link>
+      </nav>
+
+      {/* Dropdown de menú para dispositivos móviles */}
+      <div className={`lg:hidden ${isMenuOpen ? 'block' : 'hidden'} absolute top-16 w-full bg-white shadow-lg rounded-md z-50`}>
+        <div className="flex flex-col gap-2 p-4">
+          <Link
+            className="text-sm font-medium hover:underline underline-offset-4 py-2"
+            href="/"
+          >
+            Home
           </Link>
-          <nav className="ml-auto flex gap-4 sm:gap-6 text-black">
-            <Link
-              className="text-sm font-medium hover:underline underline-offset-4 py-2"
-              href="/"
-            >
-              Home
-            </Link>
-            <Link
-              className="text-sm font-medium hover:underline underline-offset-4 py-2"
-              href="/docs"
-            >
-              Documentation
-            </Link>
-            <Link
-              className="text-sm font-medium hover:underline underline-offset-4 py-2"
-              href="#"
-            >
-              About
-            </Link>
-            <Link
-              className="text-sm font-medium hover:underline underline-offset-4 py-2"
-              href="#"
-            >
-              Contact
-            </Link>
-            <Link
-              className="text-sm font-medium bg-black rounded-md text-white px-4 py-2 hover:bg-gray-900"
-              href="/login"
-            >
-              Login
-            </Link>
-          </nav>
-        </header>
+          <Link
+            className="text-sm font-medium hover:underline underline-offset-4 py-2"
+            href="/docs"
+          >
+            Documentation
+          </Link>
+          <Link
+            className="text-sm font-medium hover:underline underline-offset-4 py-2"
+            href="#"
+          >
+            About
+          </Link>
+          <Link
+            className="text-sm font-medium hover:underline underline-offset-4 py-2"
+            href="#"
+          >
+            Contact
+          </Link>
+          <Link
+            className="text-sm font-medium bg-black rounded-md text-white px-4 py-2 hover:bg-gray-900"
+            href="/login"
+          >
+            Login
+          </Link>
+        </div>
+      </div>
+    </header>
         <main className="flex-1">
           <section className="w-full py-12 md:py-24 lg:py-32  mt-32">
             <div className="px-4 md:px-6 space-y-10 xl:space-y-16">
