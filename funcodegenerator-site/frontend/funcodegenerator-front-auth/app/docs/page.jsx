@@ -14,7 +14,7 @@ function page() {
         <header className="px-4 lg:px-6 h-16 flex items-center bg-white/40 backdrop-blur-lg">
       <div className="flex items-center w-full justify-between">
         {/* Brand */}
-        <Link className="flex items-center" href="#">
+        <Link className="flex items-center" href="/">
           <TornadoIcon className="h-6 w-6 text-black" />
           <span className="ml-2 text-black font-medium">
             FunCodeGenerator
