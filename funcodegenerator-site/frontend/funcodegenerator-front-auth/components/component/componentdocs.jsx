@@ -29,6 +29,7 @@ export function Componentdocs() {
             </div>
           </form>
         </div>
+
         <div className="hidden lg:flex lg:gap-4 lg:ml-auto mr-5">
           <Button size="sm" variant="outline">
             <BookIcon className="w-4 h-4 mr-2 shrink-0" />
@@ -93,11 +94,7 @@ export function Componentdocs() {
             </div>
           </div>
           <div className="space-y-6 w-full max-w-3xl min-h-0">
-            <div className="prose max-w-none w-full pb-6">
-              <h1>Empezemos</h1>
-              <p>Bienvenido a la documentacion de FunCodeGenerator</p>
-            </div>
-            <div className="grid gap-8">
+            <div className="grid gap-8 mt-10">
               <section id="introduction" className="border-b pb-4">
                 <h2 className="text-3xl font-bold mb-2">Introducción</h2>
                 <p className="text-lg">
@@ -170,7 +167,6 @@ export function Componentdocs() {
                     funciones de la plataforma.
                   </li>
                 </ul>
-                
               </section>
 
               <section id="login" className="border-b pb-4">
