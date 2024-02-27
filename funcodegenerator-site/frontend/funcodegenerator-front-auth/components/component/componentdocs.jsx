@@ -17,7 +17,7 @@ export function Componentdocs() {
           <FlagIcon className="h-6 w-6" />
           <span className="ml-2 hidden lg:inline">FunCodeGenerator Docs</span>
         </Link>
-        <div className="flex-1 min-w-0 w-0 mx-2 lg:mx-4">
+        <div className="hidden lg:flex lg:flex-1 min-w-0 w-0 mx-2 lg:mx-4">
           <form className="w-full">
             <div className="relative">
               <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-300 dark:text-gray-700" />
