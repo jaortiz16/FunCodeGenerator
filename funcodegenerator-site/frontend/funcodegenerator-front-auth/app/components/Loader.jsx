@@ -2,6 +2,7 @@ import "./load.css"
 function Loader() {
     return (
       <div className="background z-10">
+      <div className="background">
       <div className="content">
         <div className="logo-container">
           <svg
@@ -22,8 +23,9 @@ function Loader() {
             <path d="M11 20H9" />
           </svg>
         </div>
-        <h1>FunCodeGenerator</h1>
+        <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold">FunCodeGenerator</h1>
       </div>
+    </div>
     </div>
     )
   }
